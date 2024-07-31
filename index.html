@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socail Media</title>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <style>
+      body {
+        background: #f0ecff;
+      }
+      @media (max-width: 767px) {
+        .exa {
+          width: 100%;
+        }
+      }
+      #create {
+        position: fixed;
+        bottom: 7%;
+        right: 5%;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        line-height: 70px;
+        text-align: center;
+        color: #fff;
+        font-size: 50px;
+        cursor: pointer;
+      }
+      textarea {
+        width: 100%;
+        height: 70px;
+        resize: none;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+      }
+      /*=============loader=============*/
+
+      .lds-roller,
+      .lds-roller div,
+      .lds-roller div:after {
+        box-sizing: border-box;
+      }
+      .lds-roller {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+      }
+      .lds-roller div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        width: 7.2px;
+        height: 7.2px;
+        border-radius: 50%;
+        background: currentColor;
+        margin: -3.6px 0 0 -3.6px;
+      }
+      .lds-roller div:nth-child(1) {
+        animation-delay: -0.036s;
+      }
+      .lds-roller div:nth-child(1):after {
+        top: 62.62742px;
+        left: 62.62742px;
+      }
+      .lds-roller div:nth-child(2) {
+        animation-delay: -0.072s;
+      }
+      .lds-roller div:nth-child(2):after {
+        top: 67.71281px;
+        left: 56px;
+      }
+      .lds-roller div:nth-child(3) {
+        animation-delay: -0.108s;
+      }
+      .lds-roller div:nth-child(3):after {
+        top: 70.90963px;
+        left: 48.28221px;
+      }
+      .lds-roller div:nth-child(4) {
+        animation-delay: -0.144s;
+      }
+      .lds-roller div:nth-child(4):after {
+        top: 72px;
+        left: 40px;
+      }
+      .lds-roller div:nth-child(5) {
+        animation-delay: -0.18s;
+      }
+      .lds-roller div:nth-child(5):after {
+        top: 70.90963px;
+        left: 31.71779px;
+      }
+      .lds-roller div:nth-child(6) {
+        animation-delay: -0.216s;
+      }
+      .lds-roller div:nth-child(6):after {
+        top: 67.71281px;
+        left: 24px;
+      }
+      .lds-roller div:nth-child(7) {
+        animation-delay: -0.252s;
+      }
+      .lds-roller div:nth-child(7):after {
+        top: 62.62742px;
+        left: 17.37258px;
+      }
+      .lds-roller div:nth-child(8) {
+        animation-delay: -0.288s;
+      }
+      .lds-roller div:nth-child(8):after {
+        top: 56px;
+        left: 12.28719px;
+      }
+      @keyframes lds-roller {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      /*=============loader=============*/
+    </style>
+  </head>
+  <body>
+    <!-- /*=============loader=============*/ -->
+    <div
+      style="
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+      "
+    >
+      <div
+        class="lds-roller"
+        style="
+          position: absolute;
+          background-color: #b4b4b4bd;
+          z-index: 99999999999;
+          margin: auto;
+          top: 50%;
+          border-radius: 20px;
+        "
+        id="loader"
+      >
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- /*=============loader=============*/ -->
+
+    <!--================== Login modal ================== -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-bs-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label"
+                  >Username</label
+                >
+                <input type="text" class="form-control" id="username" />
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label"
+                  >password:</label
+                >
+                <input type="text" class="form-control" id="password" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="loginCheck()"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ==================Login modal ================== -->
+    <!--================== Registermodal ==================-->
+    <div
+      class="modal fade"
+      id="Registermodal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Register a New user
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-bs-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Image</label>
+                <input type="file" class="form-control" id="register-image" />
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">name</label>
+                <input type="text" class="form-control" id="name" />
+              </div>
+
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label"
+                  >Username</label
+                >
+                <input type="text" class="form-control" id="usernames" />
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label"
+                  >password:</label
+                >
+                <input type="text" class="form-control" id="passwords" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="RegisterCheck()"
+            >
+              register
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--================== Registermodal ==================-->
+    <!--================== Crate post modal ==================-->
+    <div
+      class="modal fade"
+      id="Createpostmodal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">Create post</h5>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-bs-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">title</label>
+                <input type="text" class="form-control" id="title" />
+
+                <input type="hidden" id="post-id-input" value="" />
+              </div>
+
+              <div class="form-group">
+                <textarea id="body"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Image</label>
+                <input type="file" class="form-control" id="image" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createPost()"
+              id="post-modal-submit-btn"
+            >
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--================== Crate post modal ==================-->
+    <!--================== delete post modal ==================-->
+    <div
+      class="modal fade"
+      id="Delete-post-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">
+              Are you sure to delete post?
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-bs-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <input type="hidden" id="delete-id-input" value="" />
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="confirmDelete()"
+              id="post-modal-submit-btn"
+            >
+              delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--================== delete post modal ==================-->
+    <!--=========== Create-post  ============-->
+    <div
+      class="bg-primary"
+      id="create"
+      style="display: none"
+      onclick="addBtnClicked()"
+    >
+      +
+    </div>
+    <!--=========== Create-post  ============-->
+    <!--================== Alert ================== -->
+    <div
+      id="liveAlertPlaceholder"
+      style="position: fixed; bottom: 0; right: 0; z-index: 999999"
+    ></div>
+    <!--================== Alert ================== -->
+    <!--================== Start navbar ================== -->
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <div class="col-lg-9 col-sm-12 exa">
+          <nav class="navbar navbar-expand-lg bg-light shadow p-2">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="index.html">Tarmeez</a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div
+                class="collapse navbar-collapse justify-content-between"
+                id="navbarNavAltMarkup"
+              >
+                <div class="navbar-nav">
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="index.html"
+                    >Home</a
+                  >
+                  <a class="nav-link" href="Porfile.html">portfilo</a>
+                </div>
+                <div class="d-flex justify-content-end" id="login">
+                  <button
+                    type="button"
+                    class="btn btn-outline-success mx-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    id="log"
+                  >
+                    login
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#Registermodal"
+                    id="register"
+                  >
+                    Register
+                  </button>
+                </div>
+
+                <!-- loged-out -->
+                <div
+                  class="justify-content-end align-items-center"
+                  style="display: none"
+                  id="logout"
+                >
+                  <img
+                    src="./images/avatar.png"
+                    class="rounded-circle p-1"
+                    alt=""
+                    id="nav-user-image"
+                    style="width: 40px; height: 40px"
+                  />
+                  <b id="nav-username" class="p-1"> @Zainab</b>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger mx-2"
+                    id="log-out"
+                    onclick="LogetOut()"
+                  >
+                    log-out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!-- ================== end navbar ================== -->
+    <!-- ================== Start Main ================== -->
+    <div class="container">
+      <div class="d-flex justify-content-center mt-5">
+        <div class="col-lg-9 col-sm-12">
+          <div id="posts"></div>
+        </div>
+      </div>
+    </div>
+    <!-- ==================End Main ==================-->
+    <script src="./js/main.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
